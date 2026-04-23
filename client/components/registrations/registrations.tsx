@@ -23,6 +23,8 @@ export default function Registrations({ ...props }: RegistrationsSection) {
                     gradientClassName="via-white/30"
                     ulClassName="space-y-3"
                     textClassName="text-neutral-400 font-light leading-relaxed max-w-sm mb-3 whitespace-pre-line"
+                    action_type={props.guests_action_type}
+                    form={props.guests_form}
                 />
 
                 <RegistrationCard
@@ -35,6 +37,8 @@ export default function Registrations({ ...props }: RegistrationsSection) {
                     link={props.nominees_link}
                     className="border border-white/10 md:col-start-2"
                     gradientClassName="via-gold-500/50"
+                    action_type={props.nominees_action_type}
+                    form={props.nominees_form}
                 />
 
             </div>

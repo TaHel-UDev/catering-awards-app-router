@@ -1,9 +1,12 @@
 import type { DirectusFile } from "@directus/sdk";
 
 export interface Schema {
+    applications: Application[];
     cta_section: CtaSection;
     footer_section: FooterSection;
+    forms: Form[];
     gallery_section: GallerySection;
+    global_settings: GlobalSettings;
     hero_section: HeroSection;
     meta_data: MetaData;
     partner_categories: PartnerCategory[];
@@ -16,12 +19,37 @@ export interface Schema {
     directus_deployments: CustomDirectusDeployment;
 }
 
+export interface Application {
+    id: number;
+    form_name: string | null;
+    name: string | null;
+    phone: string | null;
+    email: string | null;
+    social: string | null;
+    comment: string | null;
+}
+
+export interface GlobalSettings {
+    id: number;
+    notification_emails: Array<string> | null;
+}
+
+export interface Form {
+    id: number;
+    name: string | null;
+    title: string | null;
+    subtitle: string | null;
+    fields: Array<"name" | "phone" | "email" | "social" | "comment"> | null;
+}
+
 export interface CtaSection {
     id: number;
     title: string | null;
     text: string | null;
     button_text: string | null;
     button_link: string | null;
+    action_type: "link" | "form";
+    form: Form;
 }
 
 export interface FooterSection {
@@ -91,6 +119,8 @@ export interface HeroSection {
     modal_button: string | null;
     registration_button: string | null;
     registration_link: string | null;
+    action_type: "link" | "form";
+    form: Form;
 }
 
 export interface MetaData {
@@ -119,6 +149,10 @@ export interface RegistrationsSection {
     guests_advantages: RegistrationsAdvantages[] | null;
     guests_button: string | null;
     guests_link: string | null;
+    guests_action_type: "link" | "form";
+    nominees_action_type: "link" | "form";
+    guests_form: Form;
+    nominees_form: Form;
 }
 
 export interface WinnersSection {

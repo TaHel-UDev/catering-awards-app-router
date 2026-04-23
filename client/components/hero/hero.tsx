@@ -5,22 +5,31 @@ import { HeroSection } from "@/lib/schema";
 import { motion } from "framer-motion";
 import { staggerChildren } from "../shared/animations/stagger-children";
 import Modal from "./hero-modal/modal";
+import FormModal from "../shared/form-modal";
 import Logo from "./logo";
 import Content from "./content";
-import { Button } from "../shared/button";
-import Link from "next/link";
-import { fadeUp } from "../shared/animations/fade-up";
-import ButtonGroup from "./hero-modal/button-froup";
-
-interface HeroProps {
-}
+import ButtonGroup from "./hero-modal/button-group";
 
 export default function Hero({ ...props }: HeroSection) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // Разделяем стейты для двух разных модалок
+    const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+    const [isFormModalOpen, setIsFormModalOpen] = useState(false);
 
     return (
         <>
-            <Modal data={props} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            {/* Старая модалка "Узнать больше" */}
+            <Modal data={props} isOpen={isInfoModalOpen} onClose={() => setIsInfoModalOpen(false)} />
+
+            {/* Новая универсальная модалка с формой */}
+            {props.action_type === "form" && props.form && (
+                <FormModal
+                    isOpen={isFormModalOpen}
+                    onClose={() => setIsFormModalOpen(false)}
+                    config={props.form}
+                    sourceName="Главный экран (Hero)"
+                />
+            )}
+
             <div className="relative min-h-screen flex flex-col justify-center items-center bg-dark-950 overflow-hidden px-6">
                 <div className="absolute inset-0 bg-luxury-gradient z-0" />
 
@@ -40,7 +49,12 @@ export default function Hero({ ...props }: HeroSection) {
 
                         <Content {...props} />
 
-                        <ButtonGroup {...props} setIsModalOpen={setIsModalOpen} />
+                        {/* Передаем оба стейта в кнопки */}
+                        <ButtonGroup
+                            {...props}
+                            setIsInfoModalOpen={setIsInfoModalOpen}
+                            setIsFormModalOpen={setIsFormModalOpen}
+                        />
                     </motion.div>
                 </div>
             </div>
