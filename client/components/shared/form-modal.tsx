@@ -173,7 +173,7 @@ export default function FormModal({ isOpen, onClose, config, sourceName }: FormM
                                     <CheckCircle2 className="absolute w-3.5 h-3.5 text-black opacity-0 peer-checked:opacity-100 pointer-events-none" />
                                 </div>
                                 <span className="text-xs text-neutral-500 group-hover:text-neutral-400 transition-colors leading-relaxed">
-                                    Я согласен с <a href="/privacy" target="_blank" className="text-gold-500 hover:underline">политикой конфиденциальности</a> и даю согласие на обработку персональных данных.
+                                    Я согласен с <a href="/privacy-policy.pdf" target="_blank" className="text-gold-500 hover:underline">политикой конфиденциальности</a> и даю согласие на обработку персональных данных.
                                 </span>
                             </label>
                         )}

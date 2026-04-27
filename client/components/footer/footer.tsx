@@ -22,6 +22,7 @@ export default async function Footer() {
                         <p className="text-neutral-500 text-sm leading-relaxed max-w-md whitespace-pre-line">
                             {description}
                         </p>
+                        <Link href="/privacy-policy.pdf" target="_blank" className="mt-4 inline-block text-neutral-500 text-sm leading-relaxed max-w-md whitespace-pre-line hover:text-gold-400 transition-colors">Политика конфиденциальности</Link>
                     </div>
 
                     <div>
