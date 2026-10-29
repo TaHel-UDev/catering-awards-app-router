@@ -8,9 +8,9 @@ export default function Laureates({ enabled, title, subtitle, companies, cities,
     if (enabled === false || names.length === 0) return null;
 
     return (
-        <Section id="laureates" className="overflow-hidden bg-dark-950 pb-12 md:pb-24">
+        <Section id="laureates" className="overflow-hidden bg-dark-950 pb-6 md:pb-24">
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(197,160,40,0.06),transparent_70%)]" />
-            <div className="relative border-y border-gold-500/20 py-12 md:py-16">
+            <div className="relative">
                 <div aria-hidden="true" className="mx-auto mb-8 flex items-center justify-center gap-4">
                     <span className="h-px w-12 bg-gradient-to-r from-transparent to-gold-500/50" />
                     <span className="size-1.5 rotate-45 bg-gold-400" />
@@ -28,7 +28,6 @@ export default function Laureates({ enabled, title, subtitle, companies, cities,
                 </ul>
                 {cities?.trim() && (
                     <div className="mt-10 text-center md:mt-14">
-                        <div aria-hidden="true" className="mx-auto mb-6 h-px w-16 bg-gold-500/30" />
                         <Cities
                             cities={cities}
                             cities_font_size={cities_font_size}
