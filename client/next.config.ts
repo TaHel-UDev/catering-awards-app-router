@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: 'https',
+        hostname: 'admin.cateringawards.ru',
+      },
+      {
         protocol: 'http',
         hostname: 'directus-zw8w80skgo4cw4ogk8o048o4.31.130.155.182.sslip.io',
       },

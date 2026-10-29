@@ -6,6 +6,7 @@ export interface Schema {
     footer_section: FooterSection;
     forms: Form[];
     gallery_section: GallerySection;
+    laureates_section: LaureatesSection;
     global_settings: GlobalSettings;
     hero_section: HeroSection;
     meta_data: MetaData;
@@ -103,6 +104,24 @@ export interface GallerySection {
     title: string | null;
     subtitle: string | null;
     photos: GalleryPhotos[] | null;
+}
+
+export interface LaureateCompany {
+    name: string | null;
+    highlighted?: boolean;
+}
+
+export interface LaureatesSection {
+    id: number;
+    enabled: boolean | null;
+    title: string | null;
+    subtitle: string | null;
+    companies: LaureateCompany[] | null;
+    cities: string | null;
+    cities_font_size: number | null;
+    cities_mobile_font_size: number | null;
+    cities_marquee: boolean | null;
+    cities_scroll_duration: number | null;
 }
 
 export interface HeroSection {
@@ -236,6 +255,7 @@ export interface GalleryPhotos {
     year: number | null;
     title: string | null;
     link: string | null;
+    embed_url?: string | null;
 }
 
 export interface ReviewItem {

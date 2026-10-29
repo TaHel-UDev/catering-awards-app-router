@@ -5,6 +5,7 @@ import Partners from "@/components/partners/partners";
 import Registrations from "@/components/registrations/registrations";
 import Reviews from "@/components/reviews/reviews";
 import Winners from "@/components/winners/winners";
+import Laureates from "@/components/laureates/laureates";
 import directus from "@/lib/directus";
 import { CtaSection, HeroSection, PartnersSection, RegistrationsSection, ReviewsSection } from "@/lib/schema";
 import { readSingleton } from "@directus/sdk";
@@ -50,7 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [heroData, registrationsData, winnersData, galleryData, reviewsData, partnersData, ctaData] = await Promise.all([
+  const [heroData, registrationsData, winnersData, laureatesData, galleryData, reviewsData, partnersData, ctaData] = await Promise.all([
     directus.request(readSingleton('hero_section', {
       fields: ['*', 'form.*'] as any
     })),
@@ -58,6 +59,7 @@ export default async function HomePage() {
       fields: ['*', 'guests_form.*', 'nominees_form.*'] as any
     })),
     directus.request(readSingleton('winners_section')),
+    directus.request(readSingleton('laureates_section')),
     directus.request(readSingleton('gallery_section')),
     directus.request(
       readSingleton('reviews_section', {
@@ -84,6 +86,7 @@ export default async function HomePage() {
       <Hero {...heroData as unknown as HeroSection} />
       <Registrations {...(registrationsData as unknown as RegistrationsSection)} />
       <Winners {...winnersData} />
+      <Laureates {...laureatesData} />
       <Gallery {...galleryData} />
       <Reviews {...(reviewsData as unknown as ReviewsSection)} />
       <Partners {...(partnersData as unknown as PartnersSection)} />

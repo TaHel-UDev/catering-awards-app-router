@@ -6,7 +6,9 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:gallery": "node --experimental-strip-types --test tests/vk-video.test.mjs",
+    "cms:setup-laureates": "node --env-file=.env scripts/setup-laureates.mjs"
   },
   "dependencies": {
     "@directus/sdk": "^21.2.2",

@@ -3,15 +3,18 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import SectionHeader from "../shared/section-header";
-import { GallerySection } from "@/lib/schema";
+import { GalleryPhotos, GallerySection } from "@/lib/schema";
+import { getVkVideoEmbedUrl } from "@/lib/vk-video";
 import Section from "../shared/section";
 import { GalleryItem } from "./item";
 import { Button } from "../shared/button";
+import VideoModal from "./video-modal";
 
 const VISIBLE_COUNT = 5;
 
 export default function Gallery({ ...props }: GallerySection) {
     const [showAll, setShowAll] = useState(false);
+    const [activeVideo, setActiveVideo] = useState<{ photo: GalleryPhotos; embedUrl: string } | null>(null);
 
     const photosList = props.photos || [];
 
@@ -34,9 +37,17 @@ export default function Gallery({ ...props }: GallerySection) {
                 {sortedPhotos.length > 0 ? (
                     <>
                         <div className="flex flex-col items-center gap-0 mt-8 relative z-10">
-                            {visiblePhotos.map((item, key) => (
-                                <GalleryItem key={key} photo={item} />
-                            ))}
+                            {visiblePhotos.map((item, key) => {
+                                const videoUrl = getVkVideoEmbedUrl(item.link);
+                                const embedUrl = videoUrl ? getVkVideoEmbedUrl(item.embed_url) || videoUrl : null;
+                                return (
+                                    <GalleryItem
+                                        key={`${item.link}-${key}`}
+                                        photo={item}
+                                        onPlay={embedUrl ? () => setActiveVideo({ photo: item, embedUrl }) : undefined}
+                                    />
+                                );
+                            })}
                         </div>
 
                         {hasMorePhotos && (
@@ -62,6 +73,14 @@ export default function Gallery({ ...props }: GallerySection) {
                     </div>
                 )}
             </div>
+            {activeVideo && (
+                <VideoModal
+                    title={activeVideo.photo.title || "Видео церемонии"}
+                    embedUrl={activeVideo.embedUrl}
+                    originalUrl={activeVideo.photo.link!}
+                    onClose={() => setActiveVideo(null)}
+                />
+            )}
         </Section>
     );
 }
