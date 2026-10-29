@@ -8,7 +8,7 @@ export default function Laureates({ enabled, title, subtitle, companies, cities,
     if (enabled === false || names.length === 0) return null;
 
     return (
-        <Section id="laureates" className="overflow-hidden bg-dark-950 pb-6 md:pb-24">
+        <Section id="laureates" noPadding className="overflow-hidden bg-dark-950 pb-6 md:pb-24">
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(197,160,40,0.06),transparent_70%)]" />
             <div className="relative">
                 <div aria-hidden="true" className="mx-auto mb-8 flex items-center justify-center gap-4">
