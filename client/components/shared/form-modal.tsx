@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { X, Loader2, CheckCircle2 } from "lucide-react";
 import { Button } from "./button";
+import PhoneInput from "./phone-input";
 import { submitApplication } from "@/app/actions/submit-application";
 import { FIELD_LABELS, PARTICIPANT_LABELS, getFormFields, isValidPhone } from "@/lib/application-forms";
 import type { Form, FormField } from "@/lib/schema";
@@ -18,21 +19,6 @@ const INPUT_CLASS = "w-full rounded-none border border-white/10 bg-white/5 px-4 
 const AUTOCOMPLETE: Partial<Record<FormField, string>> = {
     name: "given-name", last_name: "family-name", company: "organization", city: "address-level2", phone: "tel", email: "email",
 };
-
-function formatPhone(value: string) {
-    let digits = value.replace(/\D/g, "");
-    if (!digits) return "";
-    if (digits.startsWith("9")) digits = "7" + digits;
-    if (digits.startsWith("8")) digits = "7" + digits.slice(1);
-    if (!digits.startsWith("7")) return "+" + digits.slice(0, 15);
-    const number = digits.slice(1, 11);
-    let formatted = "+7";
-    if (number.length) formatted += " (" + number.slice(0, 3);
-    if (number.length >= 3) formatted += ") " + number.slice(3, 6);
-    if (number.length >= 6) formatted += "-" + number.slice(6, 8);
-    if (number.length >= 8) formatted += "-" + number.slice(8, 10);
-    return formatted;
-}
 
 export default function FormModal(props: FormModalProps) {
     return props.isOpen ? <FormDialog key={props.config.id} {...props} /> : null;
@@ -130,14 +116,15 @@ function FormDialog({ onClose, config, sourceName }: FormModalProps) {
                                         <span>{FIELD_LABELS[field]}{required ? " *" : ""}</span>
                                         {field === "comment" ? (
                                             <textarea name={field} rows={3} maxLength={4000} className={`${INPUT_CLASS} resize-none`} />
+                                        ) : field === "phone" ? (
+                                            <PhoneInput value={phone} onValueChange={setPhone} required={required} className={INPUT_CLASS} />
                                         ) : (
                                             <input
                                                 name={field}
-                                                type={field === "email" ? "email" : field === "phone" ? "tel" : "text"}
+                                                type={field === "email" ? "email" : "text"}
                                                 autoComplete={AUTOCOMPLETE[field]}
                                                 required={required}
-                                                maxLength={field === "phone" ? 18 : 255}
-                                                {...(field === "phone" ? { value: phone, onChange: (event: React.ChangeEvent<HTMLInputElement>) => setPhone(formatPhone(event.target.value)), placeholder: "+7 (___) ___-__-__" } : {})}
+                                                maxLength={255}
                                                 className={INPUT_CLASS}
                                             />
                                         )}
