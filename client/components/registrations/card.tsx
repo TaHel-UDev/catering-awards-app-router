@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { Button } from "../shared/button";
 import DynamicIcon from "../shared/dynamic-icon";
-import { Form, RegistrationsAdvantages } from "@/lib/schema";
+import { Form, RegistrationAction, RegistrationsAdvantages } from "@/lib/schema";
+import { isFormAction } from "@/lib/application-forms";
 import { useState } from "react";
 import FormModal from "../shared/form-modal";
 
@@ -14,7 +15,7 @@ interface RegistrationCardProps {
     text: string | null;
     advantages?: RegistrationsAdvantages[] | null;
     buttonText: string | null;
-    action_type?: 'link' | 'form';
+    action_type?: RegistrationAction;
     link?: string | null;
     form?: Form | null;
     className?: string;
@@ -72,7 +73,7 @@ export default function RegistrationCard({
 
                 <div className="relative z-10 mt-auto">
                     {/* Рендерим кнопку в зависимости от action_type */}
-                    {action_type === "form" && form ? (
+                    {isFormAction(action_type) && form ? (
                         <Button onClick={() => setIsModalOpen(true)} variant="primary" fullWidth>
                             {buttonText}
                         </Button>
@@ -91,11 +92,12 @@ export default function RegistrationCard({
             </div>
 
             {/* Рендерим модалку только если это форма и передан конфиг */}
-            {action_type === "form" && form && (
+            {isFormAction(action_type) && form && (
                 <FormModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     config={form}
+                    sourceName={subtitle || title || "Блок регистрации"}
                 />
             )}
         </>

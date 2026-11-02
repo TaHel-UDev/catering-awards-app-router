@@ -9,6 +9,7 @@ import FormModal from "../shared/form-modal";
 import Logo from "./logo";
 import Content from "./content";
 import ButtonGroup from "./hero-modal/button-group";
+import { isFormAction } from "@/lib/application-forms";
 
 export default function Hero({ ...props }: HeroSection) {
     // Разделяем стейты для двух разных модалок
@@ -21,7 +22,7 @@ export default function Hero({ ...props }: HeroSection) {
             <Modal data={props} isOpen={isInfoModalOpen} onClose={() => setIsInfoModalOpen(false)} />
 
             {/* Новая универсальная модалка с формой */}
-            {props.action_type === "form" && props.form && (
+            {isFormAction(props.action_type) && props.form && (
                 <FormModal
                     isOpen={isFormModalOpen}
                     onClose={() => setIsFormModalOpen(false)}

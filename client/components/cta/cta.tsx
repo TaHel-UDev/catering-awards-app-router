@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CtaSection } from "@/lib/schema";
 import { Button } from "../shared/button";
 import FormModal from "../shared/form-modal";
+import { isFormAction } from "@/lib/application-forms";
 
 export default function CTA({ ...props }: CtaSection) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,7 +32,7 @@ export default function CTA({ ...props }: CtaSection) {
                     </div>
 
                     <div className="shrink-0">
-                        {actionType === "form" && props.form ? (
+                        {isFormAction(actionType) && props.form ? (
                             <Button
                                 className="bg-white text-black/90 shadow-2xl hover:bg-neutral-100"
                                 size="lg"
@@ -65,11 +66,12 @@ export default function CTA({ ...props }: CtaSection) {
                 </div>
             </section>
 
-            {actionType === "form" && props.form && (
+            {isFormAction(actionType) && props.form && (
                 <FormModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     config={props.form}
+                    sourceName="Призыв к действию"
                 />
             )}
         </>

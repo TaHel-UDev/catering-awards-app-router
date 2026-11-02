@@ -28,19 +28,36 @@ export interface Application {
     email: string | null;
     social: string | null;
     comment: string | null;
+    last_name: string | null;
+    company: string | null;
+    city: string | null;
+    application_type: "standard" | "pre_registration" | null;
+    participant_type: ParticipantType | null;
+    source_name: string | null;
+    notification_status: "pending" | "sent" | "failed" | null;
 }
 
 export interface GlobalSettings {
     id: number;
     notification_emails: Array<string> | null;
+    pre_registration_emails: string[] | null;
+    pre_registration_cc: string[] | null;
 }
+
+export type ParticipantType = "guest" | "nominee";
+export type RegistrationAction = "link" | "form" | "pre_registration" | "disabled";
+export type FormField = "name" | "last_name" | "company" | "city" | "phone" | "email" | "social" | "comment";
 
 export interface Form {
     id: number;
     name: string | null;
     title: string | null;
     subtitle: string | null;
-    fields: Array<"name" | "phone" | "email" | "social" | "comment"> | null;
+    fields: FormField[] | null;
+    kind?: "standard" | "pre_registration" | null;
+    participant_type?: ParticipantType | null;
+    submit_label?: string | null;
+    success_message?: string | null;
 }
 
 export interface CtaSection {
@@ -49,7 +66,7 @@ export interface CtaSection {
     text: string | null;
     button_text: string | null;
     button_link: string | null;
-    action_type: "link" | "form";
+    action_type: RegistrationAction;
     form: Form;
 }
 
@@ -138,7 +155,7 @@ export interface HeroSection {
     modal_button: string | null;
     registration_button: string | null;
     registration_link: string | null;
-    action_type: "link" | "form";
+    action_type: RegistrationAction;
     form: Form;
 }
 
@@ -168,8 +185,8 @@ export interface RegistrationsSection {
     guests_advantages: RegistrationsAdvantages[] | null;
     guests_button: string | null;
     guests_link: string | null;
-    guests_action_type: "link" | "form";
-    nominees_action_type: "link" | "form";
+    guests_action_type: RegistrationAction;
+    nominees_action_type: RegistrationAction;
     guests_form: Form;
     nominees_form: Form;
 }

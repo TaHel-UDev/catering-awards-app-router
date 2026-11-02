@@ -3,6 +3,7 @@ import { Button } from "@/components/shared/button";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Form } from "@/lib/schema";
+import { isFormAction } from "@/lib/application-forms";
 
 interface Props {
     registration_link: string | null;
@@ -10,14 +11,14 @@ interface Props {
     setIsInfoModalOpen: (value: boolean) => void;
     setIsFormModalOpen: (value: boolean) => void;
     action_type: string | null;
-    form: Form | any;
+    form: Form | null;
 }
 
 export default function ButtonGroup({ ...props }: Props) {
     return (
         <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-8 justify-center items-center">
             <div className="relative z-10 w-full sm:w-auto mt-auto">
-                {props.action_type === "form" && props.form ? (
+                {isFormAction(props.action_type) && props.form ? (
                     <Button size="lg" onClick={() => props.setIsFormModalOpen(true)} variant="primary" fullWidth>
                         {props.registration_button}
                     </Button>
