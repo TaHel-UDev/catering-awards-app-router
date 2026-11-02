@@ -143,6 +143,12 @@ export interface LaureatesSection {
 
 export interface HeroSection {
     id: number;
+    background_video_enabled?: boolean | null;
+    background_video?: string | DirectusFile<Schema> | null;
+    background_video_webm?: string | DirectusFile<Schema> | null;
+    background_video_mobile?: string | DirectusFile<Schema> | null;
+    background_poster?: string | DirectusFile<Schema> | null;
+    background_overlay?: number | null;
     modal_image: string | DirectusFile<Schema> | null;
     modal_title: string | null;
     modal_text: string | null;

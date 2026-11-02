@@ -10,6 +10,7 @@ import Logo from "./logo";
 import Content from "./content";
 import ButtonGroup from "./hero-modal/button-group";
 import { isFormAction } from "@/lib/application-forms";
+import HeroBackground from "./background";
 
 export default function Hero({ ...props }: HeroSection) {
     // Разделяем стейты для двух разных модалок
@@ -32,7 +33,7 @@ export default function Hero({ ...props }: HeroSection) {
             )}
 
             <div className="relative min-h-screen flex flex-col justify-center items-center bg-dark-950 overflow-hidden px-6">
-                <div className="absolute inset-0 bg-luxury-gradient z-0" />
+                <HeroBackground media={props} suspended={isInfoModalOpen || isFormModalOpen} />
 
                 <>
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-full bg-white/5 z-0" />
