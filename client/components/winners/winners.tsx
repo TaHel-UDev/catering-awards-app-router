@@ -41,7 +41,8 @@ export default function Winners({ ...props }: WinnersSection) {
                 const baseUrl = process.env.NEXT_PUBLIC_DIRECTUS_URL || '';
                 const fileUrl = `${baseUrl}/assets/${fileId}`;
 
-                const response = await fetch(fileUrl);
+                // Replacing a Directus file keeps its URL, so bypass the browser's long-lived asset cache.
+                const response = await fetch(fileUrl, { cache: 'no-store' });
 
                 if (!response.ok) {
                     throw new Error(`Не удалось скачать файл: ${response.status} ${response.statusText}. Проверь URL (${fileUrl}) и настройки CORS в Directus.`);
