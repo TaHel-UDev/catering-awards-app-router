@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Star, ChevronDown, ChevronUp, Loader2, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
@@ -17,6 +17,14 @@ const MOBILE_CARDS_VISIBLE = 4;
 export default function Winners({ ...props }: WinnersSection) {
     const [expanded, setExpanded] = useState(false);
     const [mobileCardsExpanded, setMobileCardsExpanded] = useState(false);
+    const restorePositionAfterCollapse = useRef(false);
+    const collapsedButtonRef = useCallback((button: HTMLButtonElement | null) => {
+        if (!button || !restorePositionAfterCollapse.current) return;
+        restorePositionAfterCollapse.current = false;
+        // The restored button mounts after the long content has been removed.
+        button.focus({ preventScroll: true });
+        button.scrollIntoView({ behavior: 'instant', block: 'center' });
+    }, []);
 
     // Подстраховка: если в JSON всё еще приходят данные (пока ты их не удалил из админки)
     const fallbackCategories = props.categories || [];
@@ -127,6 +135,7 @@ export default function Winners({ ...props }: WinnersSection) {
                         {!expanded ? (
                             <div className="mt-4 flex justify-center">
                                 <Button
+                                    ref={collapsedButtonRef}
                                     onClick={() => setExpanded(true)}
                                     className="bg-gold-500 text-black hover:bg-gold-400"
                                 >
@@ -168,6 +177,7 @@ export default function Winners({ ...props }: WinnersSection) {
                                             {hasMoreOnMobile && !mobileCardsExpanded && (
                                                 <div className="pt-2 flex justify-center">
                                                     <Button
+                                                        ref={collapsedButtonRef}
                                                         variant="outline"
                                                         size="sm"
                                                         onClick={() => setMobileCardsExpanded(true)}
@@ -183,7 +193,10 @@ export default function Winners({ ...props }: WinnersSection) {
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
-                                                        onClick={() => setMobileCardsExpanded(false)}
+                                                        onClick={() => {
+                                                            restorePositionAfterCollapse.current = true;
+                                                            setMobileCardsExpanded(false);
+                                                        }}
                                                         className="text-neutral-500 hover:text-white"
                                                     >
                                                         Свернуть <ChevronUp className="ml-2 w-4 h-4" />
@@ -220,8 +233,8 @@ export default function Winners({ ...props }: WinnersSection) {
                                     <Button
                                         variant="ghost"
                                         onClick={() => {
+                                            restorePositionAfterCollapse.current = true;
                                             setExpanded(false);
-                                            document.getElementById('winners')?.scrollIntoView({ behavior: 'smooth' });
                                         }}
                                         className="text-neutral-500 hover:text-white"
                                     >
