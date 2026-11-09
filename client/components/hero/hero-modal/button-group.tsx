@@ -6,6 +6,7 @@ import { Form } from "@/lib/schema";
 import { isFormAction } from "@/lib/application-forms";
 
 interface Props {
+    modal_button: string | null;
     registration_link: string | null;
     registration_button: string | null;
     setIsInfoModalOpen: (value: boolean) => void;
@@ -41,7 +42,7 @@ export default function ButtonGroup({ ...props }: Props) {
                 onClick={() => props.setIsInfoModalOpen(true)}
                 className="border-b border-gold-400/30 hover:border-gold-400 transition-colors"
             >
-                Узнать больше
+                {props.modal_button?.trim() || "Узнать больше"}
             </Button>
         </motion.div>
     )
