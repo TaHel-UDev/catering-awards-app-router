@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import SectionHeader from "../shared/section-header";
 import { GalleryPhotos, GallerySection } from "@/lib/schema";
@@ -15,6 +15,15 @@ const VISIBLE_COUNT = 5;
 export default function Gallery({ ...props }: GallerySection) {
     const [showAll, setShowAll] = useState(false);
     const [activeVideo, setActiveVideo] = useState<{ photo: GalleryPhotos; embedUrl: string } | null>(null);
+    const toggleButtonRef = useRef<HTMLButtonElement>(null);
+    const wasExpanded = useRef(false);
+
+    useLayoutEffect(() => {
+        if (wasExpanded.current && !showAll) {
+            toggleButtonRef.current?.scrollIntoView({ behavior: 'instant', block: 'center' });
+        }
+        wasExpanded.current = showAll;
+    }, [showAll]);
 
     const photosList = props.photos || [];
 
@@ -53,7 +62,9 @@ export default function Gallery({ ...props }: GallerySection) {
                         {hasMorePhotos && (
                             <div className="mt-6">
                                 <Button
-                                    onClick={() => setShowAll(!showAll)}
+                                    ref={toggleButtonRef}
+                                    onClick={() => setShowAll(expanded => !expanded)}
+                                    aria-expanded={showAll}
                                     variant="outline"
                                     size="sm"
                                     className="border-gold-500/20 text-gold-500/80 hover:bg-gold-500/10 hover:text-gold-400 hover:border-gold-500/40 min-w-[160px]"
