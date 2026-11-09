@@ -3,19 +3,25 @@ import Section from "../shared/section";
 import SectionHeader from "../shared/section-header";
 import Cities from "./cities";
 
+function LaureatesOrnament({ className }: { className: string }) {
+    return (
+        <div aria-hidden="true" className={`mx-auto flex items-center justify-center gap-4 ${className}`}>
+            <span className="h-px w-12 bg-gradient-to-r from-transparent to-gold-500/50" />
+            <span className="size-1.5 rotate-45 bg-gold-400" />
+            <span className="h-px w-12 bg-gradient-to-l from-transparent to-gold-500/50" />
+        </div>
+    );
+}
+
 export default function Laureates({ enabled, title, subtitle, companies, cities, cities_font_size, cities_mobile_font_size, cities_marquee, cities_scroll_duration }: LaureatesSection) {
     const names = companies?.filter((company) => company.name?.trim()) || [];
     if (enabled === false || names.length === 0) return null;
 
     return (
-        <Section id="laureates" noPadding className="overflow-hidden bg-dark-950 pb-6 md:pb-24">
+        <Section id="laureates" noPadding className="overflow-hidden bg-dark-950 pb-3 md:pb-12">
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(197,160,40,0.06),transparent_70%)]" />
             <div className="relative">
-                <div aria-hidden="true" className="mx-auto mb-8 flex items-center justify-center gap-4">
-                    <span className="h-px w-12 bg-gradient-to-r from-transparent to-gold-500/50" />
-                    <span className="size-1.5 rotate-45 bg-gold-400" />
-                    <span className="h-px w-12 bg-gradient-to-l from-transparent to-gold-500/50" />
-                </div>
+                <LaureatesOrnament className="mb-8" />
                 <div className="mx-auto max-w-3xl [&_h2]:text-balance [&_h2]:leading-tight [&_p]:text-pretty">
                     <SectionHeader title={title || ""} subtitle={subtitle || undefined} align="center" />
                 </div>
@@ -37,6 +43,7 @@ export default function Laureates({ enabled, title, subtitle, companies, cities,
                         />
                     </div>
                 )}
+                <LaureatesOrnament className="mt-3 md:mt-12" />
             </div>
         </Section>
     );

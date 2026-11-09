@@ -3,6 +3,7 @@ import type { DirectusFile } from "@directus/sdk";
 export interface Schema {
     applications: Application[];
     cta_section: CtaSection;
+    customer_reviews_section: CustomerReviewsSection;
     footer_section: FooterSection;
     forms: Form[];
     gallery_section: GallerySection;
@@ -114,6 +115,20 @@ export interface ReviewsSection {
     title: string | null;
     subtitle: string | null;
     reviews: ReviewItem[] | null;
+}
+
+export interface CustomerReview {
+    company: string | null;
+    author: string | null;
+    text: string | null;
+}
+
+export interface CustomerReviewsSection {
+    id: number;
+    enabled: boolean | null;
+    title: string | null;
+    subtitle: string | null;
+    reviews: CustomerReview[] | null;
 }
 
 export interface GallerySection {

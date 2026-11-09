@@ -12,6 +12,7 @@
     "test:phone-mask": "node --experimental-strip-types --test tests/phone-mask.test.mjs",
     "test:hero-media": "node --experimental-strip-types --test tests/hero-media.test.mjs",
     "cms:setup-laureates": "node --env-file=.env scripts/setup-laureates.mjs",
+    "cms:setup-customer-reviews": "node --env-file=.env scripts/setup-customer-reviews.mjs",
     "cms:setup-pre-registration": "node --env-file=.env scripts/setup-pre-registration.mjs",
     "cms:setup-hero-video": "node --env-file=.env scripts/setup-hero-video.mjs"
   },

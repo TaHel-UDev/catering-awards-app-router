@@ -1,4 +1,5 @@
 import CTA from "@/components/cta/cta";
+import CustomerReviews from "@/components/customer-reviews/customer-reviews";
 import Gallery from "@/components/gallery/gallery";
 import Hero from "@/components/hero/hero";
 import Partners from "@/components/partners/partners";
@@ -51,7 +52,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [heroData, registrationsData, winnersData, laureatesData, galleryData, reviewsData, partnersData, ctaData] = await Promise.all([
+  const [heroData, registrationsData, winnersData, laureatesData, customerReviewsData, galleryData, reviewsData, partnersData, ctaData] = await Promise.all([
     directus.request(readSingleton('hero_section', {
       fields: ['*', 'form.*'] as any
     })),
@@ -60,6 +61,10 @@ export default async function HomePage() {
     })),
     directus.request(readSingleton('winners_section')),
     directus.request(readSingleton('laureates_section')),
+    directus.request(readSingleton('customer_reviews_section')).catch((error: unknown) => {
+      console.warn('Could not load customer reviews', error);
+      return null;
+    }),
     directus.request(readSingleton('gallery_section')),
     directus.request(
       readSingleton('reviews_section', {
@@ -87,6 +92,7 @@ export default async function HomePage() {
       <Registrations {...(registrationsData as unknown as RegistrationsSection)} />
       <Winners {...winnersData} />
       <Laureates {...laureatesData} />
+      {customerReviewsData && <CustomerReviews {...customerReviewsData} />}
       <Gallery {...galleryData} />
       <Reviews {...(reviewsData as unknown as ReviewsSection)} />
       <Partners {...(partnersData as unknown as PartnersSection)} />
